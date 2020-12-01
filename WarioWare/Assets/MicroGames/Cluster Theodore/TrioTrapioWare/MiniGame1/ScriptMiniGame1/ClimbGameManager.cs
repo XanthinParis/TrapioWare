@@ -15,7 +15,7 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
 
     [Header("PlayerReference")]
     public GameObject player;
-    public int playerPosition;
+    public int playerPosition = 0;
 
     [Header("InputBools")]
     [SerializeField] private bool canLeft = false;
@@ -30,12 +30,15 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
     {
         player.transform.position = positions[playerPosition].transform.position;
 
-        PlayerInput();
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        {
+            PlayerInput();
+        }
     }
 
     void PlayerInput()
     {
-        if (Input.GetButtonDown("A_Button") && canLeft)
+        if (Input.GetMouseButtonDown(0) && canLeft)
         {
             Debug.Log("Left");
             canRight = true;
@@ -44,7 +47,7 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
             return;
 
         }
-        else if (Input.GetButtonDown("Right_Bumper") && canRight)
+        else if (Input.GetMouseButtonDown(1) && canRight)
         {
             Debug.Log("Right");
             canLeft = true;
