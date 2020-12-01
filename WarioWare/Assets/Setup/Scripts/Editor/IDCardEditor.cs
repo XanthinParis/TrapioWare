@@ -49,7 +49,7 @@ public class IDCardEditor : Editor {
 		
 		EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(idCard.microGameScene)));
 
-		
+		GUILayout.Space(830);
 
 		if (GUILayout.Button("Add To Build")) { AddScene(idCard.microGameScene.EditorSceneAsset); }
 
