@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: New ID
   m_EditorClassIdentifier: 
   cluster: 0
-  trio: Brigantin
+  trio: TrapioWare
   haptiqueChal: 0
   inputChal: 0
-  indexEnum: 0
+  indexEnum: 2
   microGameScene:
     sceneAsset: {fileID: 0}
     required: 0
