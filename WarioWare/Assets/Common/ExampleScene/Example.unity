@@ -981,7 +981,7 @@ MonoBehaviour:
   resultText: {fileID: 169655129}
   bpmText: {fileID: 1055891970}
   timerUI: {fileID: 1428133427}
-  tickNumber: {fileID: 0}
+  tickNumber: {fileID: 1361720925}
   input: {fileID: 1330898506}
 --- !u!4 &948930884
 Transform:
