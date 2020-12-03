@@ -23,6 +23,7 @@ namespace TrioName
                 }
                 else
                 {
+                    //Instancier le haut du Mat.
                     ClimbGameManager.Instance.needToCheck = true;
                     Debug.Log("else");
                 }

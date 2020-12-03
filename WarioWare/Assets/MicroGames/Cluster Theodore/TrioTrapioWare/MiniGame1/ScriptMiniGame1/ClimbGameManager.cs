@@ -28,7 +28,7 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
     
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) && canLeft && playerPosition < positions.Count-1)
         {
             player.transform.position = positions[playerPosition].transform.position;
             PlayerInput();
@@ -37,7 +37,7 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
 
     void PlayerInput()
     {
-        if (Input.GetMouseButtonDown(0) && canLeft)
+        if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("Left");
             canRight = true;
@@ -46,7 +46,7 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
             return;
 
         }
-        else if (Input.GetMouseButtonDown(1) && canRight)
+        else if (Input.GetMouseButtonDown(1))
         {
             Debug.Log("Right");
             canLeft = true;
