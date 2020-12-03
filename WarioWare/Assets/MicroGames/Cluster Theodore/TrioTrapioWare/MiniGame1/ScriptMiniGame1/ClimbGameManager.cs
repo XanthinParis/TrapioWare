@@ -28,10 +28,9 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
     
     private void Update()
     {
-        player.transform.position = positions[playerPosition].transform.position;
-
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
+            player.transform.position = positions[playerPosition].transform.position;
             PlayerInput();
         }
     }

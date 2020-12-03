@@ -8,8 +8,9 @@ public class ClimbLadderManager : MonoBehaviour
     {
         if (ClimbGameManager.Instance.needToCheck)
         {
-            ClimbGameManager.Instance.needToCheck = false;
+            Debug.Log("Check");
             UpdateList();
+            
         }
     }
 
@@ -20,5 +21,7 @@ public class ClimbLadderManager : MonoBehaviour
         {
             ClimbGameManager.Instance.positions.Add(gameObject.transform.GetChild(i).gameObject);
         }
+
+        ClimbGameManager.Instance.needToCheck = false;
     }
 }
