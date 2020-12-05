@@ -20,6 +20,9 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
     [Header("InputBools")]
     [SerializeField] private bool canLeft = false;
     [SerializeField] private bool canRight = true;
+    public bool finishInstantiate = false;
+
+   
 
     private void Awake()
     {
@@ -28,27 +31,43 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
     
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) && canLeft && playerPosition < positions.Count-1)
+        player.transform.position = positions[playerPosition].transform.position;
+
+        if ((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) && finishInstantiate)
         {
-            player.transform.position = positions[playerPosition].transform.position;
-            PlayerInput();
+            if(playerPosition < positions.Count){
+                
+                PlayerInput();
+            }
+            else 
+            {
+                if(canLeft && canRight){
+                    canLeft = false;
+                    canRight = false;
+                    Debug.Log("You WIN");
+
+                }
+
+
+
+            }
         }
     }
 
     void PlayerInput()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && canLeft)
         {
-            Debug.Log("Left");
+            //Debug.Log("Left");
             canRight = true;
             playerPosition += 1;
             canLeft = false;
             return;
 
         }
-        else if (Input.GetMouseButtonDown(1))
+        else if (Input.GetMouseButtonDown(1) && canRight)
         {
-            Debug.Log("Right");
+            //Debug.Log("Right");
             canLeft = true;
             canRight = false;
             playerPosition++;

@@ -19,13 +19,13 @@ namespace TrioName
                     GameObject instanciateLadder = Instantiate(ladderPrefab, transform.position, Quaternion.identity);
                     instanciateLadder.transform.parent = ClimbGameManager.Instance.ladderParent.transform;
                     ClimbGameManager.Instance.numberOfLadder += 1;
-                    Debug.Log("if");
+                    //Debug.Log("if");
                 }
                 else
                 {
                     //Instancier le haut du Mat.
                     ClimbGameManager.Instance.needToCheck = true;
-                    Debug.Log("else");
+                    //Debug.Log("else");
                 }
 
             }

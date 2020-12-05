@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Testing;
 
 namespace TrioName
 {
@@ -8,6 +9,8 @@ namespace TrioName
     {
         public class SunManager : TimedBehaviour
         {
+            [SerializeField] private int timerDead = 0;
+
             public override void Start()
             {
                 base.Start(); //Do not erase this line!
@@ -24,9 +27,15 @@ namespace TrioName
             //TimedUpdate is called once every tick.
             public override void TimedUpdate()
             {
-                 
-             gameObject.GetComponent<Animator>().SetTrigger("TickTrigger");
+                timerDead++;
+                gameObject.GetComponent<Animator>().SetTrigger("TickTrigger");
             
+                if(timerDead == 8)
+                {
+                    //Manager.Instance.Result(false);
+                    Debug.Log("You Lose");
+                }
+
             }
         }
     }

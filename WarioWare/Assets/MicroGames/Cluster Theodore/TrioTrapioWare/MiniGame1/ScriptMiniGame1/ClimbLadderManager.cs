@@ -23,5 +23,6 @@ public class ClimbLadderManager : MonoBehaviour
         }
 
         ClimbGameManager.Instance.needToCheck = false;
+        ClimbGameManager.Instance.finishInstantiate = true;
     }
 }
