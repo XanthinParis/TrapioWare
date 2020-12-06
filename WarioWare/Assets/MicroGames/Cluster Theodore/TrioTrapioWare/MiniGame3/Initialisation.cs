@@ -15,9 +15,12 @@ namespace TrioTrapioWare
 
             public GameObject[] tinderProfile;
             public GameObject[] tinderPaper;
+
             public bool[] goodProfile;
+
             public int goodProfileNumber;
             public int profilAnalizing = 0;
+            public int tick = 0;
 
             public override void Start()
             {
@@ -37,7 +40,7 @@ namespace TrioTrapioWare
                 }
                 for (int i = 0; i < 25; i++)
                 {
-                tinderProfile[i].GetComponent<SpriteRenderer>().sortingOrder = (25 - i);
+                tinderProfile[i].GetComponent<SpriteRenderer>().sortingOrder = (27 - i);
                 }
                     for (int i = 0; i < 25; i++)
                 {
@@ -61,7 +64,7 @@ namespace TrioTrapioWare
             //TimedUpdate is called once every tick.
             public override void TimedUpdate()
             {
-
+                tick++;
             }
 
             void Update()
