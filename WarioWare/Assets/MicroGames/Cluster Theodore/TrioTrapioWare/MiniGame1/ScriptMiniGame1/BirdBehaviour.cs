@@ -13,13 +13,17 @@ public class BirdBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (goLeft)
+        if (goLeft && ClimbGameManager.Instance.needToStop == false)
         {
             transform.Translate(Vector3.left * speed * Time.deltaTime, Space.World);
         }
-        else
+        else if(goRight && ClimbGameManager.Instance.needToStop == false)
         {
             transform.Translate(Vector3.right * speed * Time.deltaTime, Space.World);
+        }
+        else
+        {
+            transform.Translate(Vector3.zero);
         }
     }
 
@@ -28,7 +32,7 @@ public class BirdBehaviour : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Debug.Log("You lose");
-            
+            ClimbGameManager.Instance.needToStop = true;
         }
     }
 }

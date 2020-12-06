@@ -28,12 +28,17 @@ namespace TrioName
             public override void TimedUpdate()
             {
                 timerDead++;
-                gameObject.GetComponent<Animator>().SetTrigger("TickTrigger");
-            
+
+                if (ClimbGameManager.Instance.needToStop == false && timerDead !=8)
+                {
+                    gameObject.GetComponent<Animator>().SetTrigger("TickTrigger");
+                }
+
                 if(timerDead == 8)
                 {
                     //Manager.Instance.Result(false);
                     Debug.Log("You Lose");
+                    ClimbGameManager.Instance.needToStop = true;
                 }
 
             }

@@ -19,7 +19,7 @@ public class NuagesBehaviour : TimedBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (goLeft)
+        if (goLeft && ClimbGameManager.Instance.needToStop == false)
         {
             if(transform.position.x <= leftPosition.transform.position.x)
             {
@@ -28,7 +28,7 @@ public class NuagesBehaviour : TimedBehaviour
 
             transform.Translate(Vector3.left * speed * Time.deltaTime, Space.World);
         }
-        else if (goRight)
+        else if (goRight && ClimbGameManager.Instance.needToStop == false)
         {
             if (transform.position.x >= rightPosition.transform.position.x)
             {
@@ -36,6 +36,10 @@ public class NuagesBehaviour : TimedBehaviour
             }
 
             transform.Translate(Vector3.right * speed *Time.deltaTime, Space.World);
+        }
+        else
+        {
+            transform.Translate(Vector3.zero);
         }
     }
 
