@@ -8,6 +8,7 @@ namespace TrapioWare
     {
         public class TargetHandler : TimedBehaviour
         {
+            public SpinManager spinManager;
             public GameObject destroyEffectPrefab;
 
             private Collider2D targetCollider;
@@ -41,7 +42,8 @@ namespace TrapioWare
 
             public void Explode()
             {
-                Instantiate(destroyEffectPrefab, transform);
+                Instantiate(destroyEffectPrefab, transform.position, Quaternion.identity);
+                spinManager.Win();
             }
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Testing;
 
 namespace TrapioWare
 {
@@ -10,9 +11,12 @@ namespace TrapioWare
         public class HammerPhysicController : TimedBehaviour
         {
             [Header("Spin Settings")]
-            [Range(0.0f, 720.0f)] public float rotationStep;
-            [Range(0.0f, 100.0f)] public float force;
-            [Range(0.0f, 1000.0f)] public float maxSpiningSpeed;
+            [Range(0.0f, 720.0f)] public float rotationStepForAddForce;
+            [Range(0.0f, 720.0f)] public float rotationStepForceIncrease;
+            [Range(0.0f, 100.0f)] public float baseForce;
+            [Range(0.0f, 1.0f)] public float forceIncrease;
+            [Range(0.0f, 10.0f)] public float forceFlatIncrease;
+            [Range(0.0f, 30.0f)] public float maxForce;
             public DistanceJoint2D joint;
 
             [Header("Technical Settings")]
@@ -20,16 +24,19 @@ namespace TrapioWare
             public bool isUsingRightJoystick = true;
             public Text[] debugText;
 
-            [Header("Launch Settings")]
-            public float launchSpeedRatio;
+            [Header("Difficulty Settings")]
+            public GameObject[] targets;
 
             private Vector2 currentJoystickDirection;
             private Rigidbody2D hammerRb;
             private bool hammerStartedSpinning;
             private bool hammerReleased;
+            private float currentForce;
 
             private float joystickAngleProgression;
+            private float joystickAngleProgression2;
             private float joystickAngleBackwardProgression;
+            private float joystickAngleBackwardProgression2;
             private float currentJoystickAngle;
             private bool isStartAngleSet;
             private float previousJoystickAngle;
@@ -41,11 +48,16 @@ namespace TrapioWare
             {
                 base.Start();
                 hammerRb = GetComponent<Rigidbody2D>();
+                currentForce = baseForce;
+                rotationStepForAddForce /= bpm / 60;
+                rotationStepForceIncrease /= bpm / 60;
+
+                targets[(int)currentDifficulty].SetActive(true);
             }
 
             public void Update()
             {
-                bumperPressed = Input.GetButton(isUsingRightJoystick ? "Left_Bumper" : "Right_Bumper");
+                bumperPressed = Input.GetButton(isUsingRightJoystick ? "Right_Bumper" : "Left_Bumper");
 
                 currentJoystickDirection = new Vector2(isUsingRightJoystick ? Input.GetAxis("Right_Joystick_X") : Input.GetAxis("Left_Joystick_X"),
                     -(isUsingRightJoystick ? Input.GetAxis("Right_Joystick_Y") : Input.GetAxis("Left_Joystick_Y")));
@@ -69,7 +81,11 @@ namespace TrapioWare
 
             public override void TimedUpdate()
             {
-
+                debugText[4].text = (Tick - 1).ToString();
+                if(Tick-1 >= 8)
+                {
+                    debugText[4].text = "Lose";
+                }
             }
 
             private void UpdateHammerMovement()
@@ -86,26 +102,42 @@ namespace TrapioWare
                     if (currentJoystickAngleMovement < 180 && currentJoystickAngleMovement >= 0)
                     {
                         joystickAngleProgression += currentJoystickAngleMovement;
+                        joystickAngleProgression2 += currentJoystickAngleMovement;
                     }
 
-                    if (joystickAngleProgression > rotationStep)
+                    if (joystickAngleProgression > rotationStepForAddForce)
                     {
                         joystickAngleProgression = 0;
                         isStartAngleSet = false;
-                        IncreaseHammerSpeed(true);
+                        HammerAddForce(true);
+                    }
+
+                    if (joystickAngleProgression2 > rotationStepForceIncrease)
+                    {
+                        joystickAngleProgression2 = 0;
+                        isStartAngleSet = false;
+                        HammerIncreaseForce();
                     }
 
 
                     if (currentJoystickAngleMovement > -180 && currentJoystickAngleMovement < 0)
                     {
                         joystickAngleBackwardProgression -= currentJoystickAngleMovement;
+                        joystickAngleBackwardProgression2 -= currentJoystickAngleMovement;
                     }
 
-                    if (joystickAngleBackwardProgression > rotationStep)
+                    if (joystickAngleBackwardProgression > rotationStepForAddForce)
                     {
                         joystickAngleBackwardProgression = 0;
                         isStartAngleSet = false;
-                        IncreaseHammerSpeed(false);
+                        HammerAddForce(false);
+                    }
+
+                    if (joystickAngleBackwardProgression2 > rotationStepForceIncrease)
+                    {
+                        joystickAngleBackwardProgression2 = 0;
+                        isStartAngleSet = false;
+                        HammerIncreaseForce();
                     }
 
                     previousJoystickAngle = currentJoystickAngle;
@@ -114,11 +146,13 @@ namespace TrapioWare
                 {
                     isStartAngleSet = false;
                     joystickAngleProgression = 0;
+                    joystickAngleProgression2 = 0;
                     joystickAngleBackwardProgression = 0;
+                    joystickAngleBackwardProgression2 = 0;
                 }
-                debugText[0].text = "Current Joystick Angle : " + currentJoystickAngle;
+                debugText[0].text = "Current Force : " + currentForce;
                 debugText[1].text = "Joystick Angle Progression : " + joystickAngleProgression;
-                debugText[2].text = "Joystick Angle Back Progression : " + joystickAngleProgression;
+                debugText[2].text = "Joystick Angle Back Progression : " + joystickAngleBackwardProgression;
 
                 if (bumperPressed && hammerStartedSpinning && !hammerReleased)
                 {
@@ -126,7 +160,7 @@ namespace TrapioWare
                 }
             }
 
-            private void IncreaseHammerSpeed(bool clockwise)
+            private void HammerAddForce(bool clockwise)
             {
                 if(!hammerReleased)
                 {
@@ -135,7 +169,22 @@ namespace TrapioWare
                     Vector2 hammerDirectionFromCenter = transform.position - joint.transform.position;
                     float hammerClockwiseAngle = Vector2.SignedAngle(Vector2.right, hammerDirectionFromCenter) + (clockwise ? 90 : -90);
                     Vector2 hammerClockwiseDirection = new Vector2(Mathf.Cos(Mathf.Deg2Rad * hammerClockwiseAngle), Mathf.Sin(Mathf.Deg2Rad * hammerClockwiseAngle));
-                    hammerRb.velocity += hammerClockwiseDirection.normalized * force;
+                    hammerRb.velocity += hammerClockwiseDirection.normalized * currentForce;
+                }
+            }
+            private void HammerIncreaseForce()
+            {
+                if (!hammerReleased)
+                {
+                    hammerStartedSpinning = true;
+
+                    currentForce *= 1 + forceIncrease;
+                    currentForce += forceFlatIncrease;
+
+                    if(currentForce > maxForce)
+                    {
+                        currentForce = maxForce;
+                    }
                 }
             }
 
