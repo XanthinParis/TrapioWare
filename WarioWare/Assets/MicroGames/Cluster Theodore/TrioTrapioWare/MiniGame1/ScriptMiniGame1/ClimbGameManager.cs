@@ -25,7 +25,11 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
     public bool win = false;
 
     public bool needToStop = false;
-   
+
+    [Header("Sounds")]
+    [SerializeField] private GameObject audioSource;
+    [SerializeField] private AudioClip[] inputSounds;
+    [SerializeField] private int nextSound = 0;
 
     private void Awake()
     {
@@ -72,8 +76,16 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
             //Debug.Log("Left");
             canRight = true;
             playerPosition += 1;
+            nextSound++;
             canLeft = false;
             playerSkin.GetComponent<SpriteRenderer>().flipX = false;
+            if (nextSound == 2)
+            {
+                nextSound = 0;
+                GameObject audiosourceSpawned = Instantiate(audioSource, transform.position, Quaternion.identity);
+                audiosourceSpawned.GetComponent<AudioSource>().clip = inputSounds[playerPosition / 2];
+                audiosourceSpawned.GetComponent<AudioSource>().Play();
+            }
             return;
 
         }
@@ -82,9 +94,19 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
             //Debug.Log("Right");
             canLeft = true;
             canRight = false;
+            nextSound++;
             playerPosition++;
             playerSkin.GetComponent<SpriteRenderer>().flipX = true;
+            if (nextSound == 2)
+            {
+                nextSound = 0;
+                GameObject audiosourceSpawned = Instantiate(audioSource, transform.position, Quaternion.identity);
+                audiosourceSpawned.GetComponent<AudioSource>().clip = inputSounds[playerPosition / 2];
+                audiosourceSpawned.GetComponent<AudioSource>().Play();
+            }
             return;
         }
+
+        
     }
 }
