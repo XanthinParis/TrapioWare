@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Testing;
 
 namespace TrapioWare
 {
@@ -25,7 +24,7 @@ namespace TrapioWare
             public Text[] debugText;
 
             [Header("Difficulty Settings")]
-            public GameObject[] targets;
+            public SpinManager spinManager;
 
             private Vector2 currentJoystickDirection;
             private Rigidbody2D hammerRb;
@@ -51,20 +50,21 @@ namespace TrapioWare
                 currentForce = baseForce;
                 rotationStepForAddForce /= bpm / 60;
                 rotationStepForceIncrease /= bpm / 60;
-
-                targets[(int)currentDifficulty].SetActive(true);
             }
 
             public void Update()
             {
-                bumperPressed = Input.GetButton(isUsingRightJoystick ? "Right_Bumper" : "Left_Bumper");
-
-                currentJoystickDirection = new Vector2(isUsingRightJoystick ? Input.GetAxis("Right_Joystick_X") : Input.GetAxis("Left_Joystick_X"),
-                    -(isUsingRightJoystick ? Input.GetAxis("Right_Joystick_Y") : Input.GetAxis("Left_Joystick_Y")));
-                currentJoystickAngle = Vector2.SignedAngle(Vector2.right, currentJoystickDirection);
-                if (currentJoystickAngle < 0)
+                if(!spinManager.gameFinished)
                 {
-                    currentJoystickAngle += 360;
+                    bumperPressed = Input.GetButton("Right_Bumper" ) || Input.GetButton("Left_Bumper");
+
+                    currentJoystickDirection = new Vector2(isUsingRightJoystick ? Input.GetAxis("Right_Joystick_X") : Input.GetAxis("Left_Joystick_X"),
+                        -(isUsingRightJoystick ? Input.GetAxis("Right_Joystick_Y") : Input.GetAxis("Left_Joystick_Y")));
+                    currentJoystickAngle = Vector2.SignedAngle(Vector2.right, currentJoystickDirection);
+                    if (currentJoystickAngle < 0)
+                    {
+                        currentJoystickAngle += 360;
+                    }
                 }
 
                 RotateSprite();
@@ -82,9 +82,9 @@ namespace TrapioWare
             public override void TimedUpdate()
             {
                 debugText[4].text = (Tick - 1).ToString();
-                if(Tick-1 >= 8)
+                if(Tick-1 >= 8 || spinManager.gameFinished)
                 {
-                    debugText[4].text = "Lose";
+                    debugText[4].text = spinManager.hasWon ? "Won" : "Lose";
                 }
             }
 
@@ -196,8 +196,11 @@ namespace TrapioWare
 
             private void RotateSprite()
             {
-                Vector2 hammerDirectionFromCenter = transform.position - joint.transform.position;
-                transform.rotation = Quaternion.Euler(0.0f, 0.0f, Vector2.SignedAngle(Vector2.right, hammerDirectionFromCenter));
+                if(!hammerReleased)
+                {
+                    Vector2 hammerDirectionFromCenter = transform.position - joint.transform.position;
+                    transform.rotation = Quaternion.Euler(0.0f, 0.0f, Vector2.SignedAngle(Vector2.up, hammerDirectionFromCenter));
+                }
             }
         }
     }

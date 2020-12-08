@@ -13,12 +13,13 @@ namespace TrapioWare
 
             private Collider2D targetCollider;
             private ContactFilter2D hammerFilter;
+            private SpriteRenderer spriteRenderer;
 
             public override void Start()
             {
                 base.Start();
                 targetCollider = GetComponent<Collider2D>();
-
+                spriteRenderer = GetComponent<SpriteRenderer>();
                 hammerFilter.SetLayerMask(LayerMask.GetMask("Enemy"));
                 hammerFilter.useTriggers = true;
             }
@@ -28,7 +29,7 @@ namespace TrapioWare
             {
                 base.FixedUpdate();
                 List<Collider2D> colliders = new List<Collider2D>();
-                if(Physics2D.OverlapCollider(targetCollider, hammerFilter, colliders) > 0)
+                if(Physics2D.OverlapCollider(targetCollider, hammerFilter, colliders) > 0 && !spinManager.gameFinished)
                 {
                     Explode();
                 }
@@ -43,6 +44,7 @@ namespace TrapioWare
             public void Explode()
             {
                 Instantiate(destroyEffectPrefab, transform.position, Quaternion.identity);
+                spriteRenderer.enabled = false;
                 spinManager.Win();
             }
         }
