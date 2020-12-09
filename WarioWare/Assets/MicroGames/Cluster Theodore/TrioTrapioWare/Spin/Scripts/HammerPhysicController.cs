@@ -23,6 +23,9 @@ namespace TrapioWare
             public bool isUsingRightJoystick = true;
             public Text[] debugText;
             public AudioClip whooshClip;
+            public AudioClip whooshLaunchClip;
+            public GameObject joystickGizmo;
+            public GameObject BumperGizmo;
 
             [Header("Difficulty Settings")]
             public SpinManager spinManager;
@@ -42,8 +45,9 @@ namespace TrapioWare
             private float previousJoystickAngle;
             private float currentJoystickAngleMovement;
             private bool bumperPressed;
-            private SpriteRenderer sprite;
             private AudioSource source;
+            private bool canPlayWhoosh;
+            private bool showJoystick;
 
             public override void Start()
             {
@@ -53,6 +57,7 @@ namespace TrapioWare
                 rotationStepForAddForce /= bpm / 60;
                 rotationStepForceIncrease /= bpm / 60;
                 source = GetComponent<AudioSource>();
+                canPlayWhoosh = false;
             }
 
             public void Update()
@@ -119,7 +124,6 @@ namespace TrapioWare
                     {
                         joystickAngleProgression2 = 0;
                         isStartAngleSet = false;
-                        source.PlayOneShot(whooshClip);
                         HammerIncreaseForce();
                     }
 
@@ -158,10 +162,45 @@ namespace TrapioWare
                 debugText[1].text = "Joystick Angle Progression : " + joystickAngleProgression;
                 debugText[2].text = "Joystick Angle Back Progression : " + joystickAngleBackwardProgression;
 
-                if (bumperPressed && hammerStartedSpinning && !hammerReleased)
+
+                if (bumperPressed && hammerStartedSpinning)
                 {
-                    ReleaseHammer();
+                    if(!hammerReleased)
+                    {
+                        ReleaseHammer();
+                    }
+                    else
+                    {
+                        //TakeHammer();
+                    }
                 }
+
+                Vector2 hammerDirectionFromCenter = transform.position - joint.transform.position;
+                if (!canPlayWhoosh)
+                {
+                    if (hammerDirectionFromCenter.y > 0)
+                    {
+                        canPlayWhoosh = true;
+                    }
+                }
+                else if(hammerDirectionFromCenter.y < -2 && !spinManager.gameFinished)
+                {
+                    canPlayWhoosh = false;
+                    source.pitch = hammerRb.velocity.magnitude / 15;
+                    source.PlayOneShot(whooshClip);
+                }
+
+                if(hammerRb.velocity.magnitude > 30)
+                {
+                    showJoystick = false;
+                }
+                if(hammerRb.velocity.magnitude < 5 && hammerDirectionFromCenter.y < -2 && !spinManager.gameFinished)
+                {
+                    showJoystick = true;
+                }
+
+                joystickGizmo.SetActive(showJoystick);
+
             }
 
             private void HammerAddForce(bool clockwise)
@@ -194,8 +233,17 @@ namespace TrapioWare
 
             private void ReleaseHammer()
             {
+                source.pitch = 1;
+                source.PlayOneShot(whooshLaunchClip);
                 joint.enabled = false;
                 hammerReleased = true;
+            }
+
+            private void TakeHammer()
+            {
+                Debug.Log("Taijb");
+                joint.enabled = true;
+                hammerReleased = false;
             }
 
             private void RotateSprite()

@@ -11,10 +11,12 @@ namespace TrapioWare
             public SpinManager spinManager;
             public GameObject destroyEffectPrefab;
             public GameObject hitEffectPrefab;
+            public AudioClip crushClip;
 
             private Collider2D targetCollider;
             private ContactFilter2D hammerFilter;
             private SpriteRenderer spriteRenderer;
+            private AudioSource source;
 
             public override void Start()
             {
@@ -23,6 +25,7 @@ namespace TrapioWare
                 spriteRenderer = GetComponent<SpriteRenderer>();
                 hammerFilter.SetLayerMask(LayerMask.GetMask("Enemy"));
                 hammerFilter.useTriggers = true;
+                source = GetComponent<AudioSource>();
             }
 
 
@@ -46,6 +49,7 @@ namespace TrapioWare
             {
                 Instantiate(destroyEffectPrefab, transform.position, Quaternion.identity);
                 Instantiate(hitEffectPrefab, hitPos, Quaternion.identity);
+                source.PlayOneShot(crushClip);
                 spriteRenderer.enabled = false;
                 spinManager.Win();
             }
