@@ -9,7 +9,9 @@ namespace TrapioWare
     {
         public class SpinManager : TimedBehaviour
         {
-            public GameObject[] targets;
+            public DifficultySetup[] difficultySetups;
+            public bool useCustomDifficulty;
+            public int difficulty;
             public bool hasInlimitedTime;
 
             [HideInInspector] public bool hasWon;
@@ -18,12 +20,11 @@ namespace TrapioWare
             public override void Start()
             {
                 base.Start();
-                for(int i = 0; i < 3; i++)
+                if(!useCustomDifficulty)
                 {
-                    targets[i].SetActive(false);
+                    difficulty = (int)currentDifficulty;
                 }
-
-                targets[(int)currentDifficulty].SetActive(true);
+                InitializeDifficulty();
             }
 
             public override void FixedUpdate()
@@ -42,6 +43,20 @@ namespace TrapioWare
                 }
             }
 
+            private void InitializeDifficulty()
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    difficultySetups[i].target.SetActive(false);
+                    difficultySetups[i].background.SetActive(false);
+                    difficultySetups[i].boundaries.SetActive(false);
+                }
+
+                difficultySetups[difficulty].target.SetActive(true);
+                difficultySetups[difficulty].background.SetActive(true);
+                difficultySetups[difficulty].boundaries.SetActive(true);
+            }
+
             public void Win()
             {
                 if(!gameFinished)
@@ -50,6 +65,14 @@ namespace TrapioWare
                     hasWon = true;
                     Manager.Instance.Result(true);
                 }
+            }
+
+            [System.Serializable]
+            public class DifficultySetup
+            {
+                public GameObject target;
+                public GameObject background;
+                public GameObject boundaries;
             }
         }
     }

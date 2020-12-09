@@ -10,6 +10,7 @@ namespace TrapioWare
         {
             public SpinManager spinManager;
             public GameObject destroyEffectPrefab;
+            public GameObject hitEffectPrefab;
 
             private Collider2D targetCollider;
             private ContactFilter2D hammerFilter;
@@ -31,7 +32,7 @@ namespace TrapioWare
                 List<Collider2D> colliders = new List<Collider2D>();
                 if(Physics2D.OverlapCollider(targetCollider, hammerFilter, colliders) > 0 && !spinManager.gameFinished)
                 {
-                    Explode();
+                    Explode(colliders[0].transform.position);
                 }
             }
 
@@ -41,9 +42,10 @@ namespace TrapioWare
 
             }
 
-            public void Explode()
+            public void Explode(Vector2 hitPos)
             {
                 Instantiate(destroyEffectPrefab, transform.position, Quaternion.identity);
+                Instantiate(hitEffectPrefab, hitPos, Quaternion.identity);
                 spriteRenderer.enabled = false;
                 spinManager.Win();
             }

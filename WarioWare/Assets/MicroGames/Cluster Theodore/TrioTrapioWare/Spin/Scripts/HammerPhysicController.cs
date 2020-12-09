@@ -22,6 +22,7 @@ namespace TrapioWare
             [Range(0.0f, 1.0f)] public float minimumJoystickTilt = 0.8f;
             public bool isUsingRightJoystick = true;
             public Text[] debugText;
+            public AudioClip whooshClip;
 
             [Header("Difficulty Settings")]
             public SpinManager spinManager;
@@ -42,6 +43,7 @@ namespace TrapioWare
             private float currentJoystickAngleMovement;
             private bool bumperPressed;
             private SpriteRenderer sprite;
+            private AudioSource source;
 
             public override void Start()
             {
@@ -50,6 +52,7 @@ namespace TrapioWare
                 currentForce = baseForce;
                 rotationStepForAddForce /= bpm / 60;
                 rotationStepForceIncrease /= bpm / 60;
+                source = GetComponent<AudioSource>();
             }
 
             public void Update()
@@ -116,6 +119,7 @@ namespace TrapioWare
                     {
                         joystickAngleProgression2 = 0;
                         isStartAngleSet = false;
+                        source.PlayOneShot(whooshClip);
                         HammerIncreaseForce();
                     }
 
