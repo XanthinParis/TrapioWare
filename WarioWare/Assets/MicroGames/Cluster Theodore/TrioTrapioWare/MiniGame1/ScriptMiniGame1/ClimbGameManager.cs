@@ -38,8 +38,9 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
     
     private void Update()
     {
-        if (needToStop)
+        if (needToStop || win)
         {
+            needToStop = true;
             canLeft = false;
             canRight = false;
         }
@@ -59,7 +60,7 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
             player.transform.position = positions[playerPosition].transform.position;
         } 
         
-        if ((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) && finishInstantiate)
+        if ((Input.GetButtonDown("Left_Bumper") || Input.GetButtonDown("Right_Bumper")) || ((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))) && finishInstantiate)
         {
             if(playerPosition < positions.Count && !needToStop){
                 
@@ -71,7 +72,7 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
 
     void PlayerInput()
     {
-        if (Input.GetMouseButtonDown(0) && canLeft)
+        if ((Input.GetButtonDown("Left_Bumper") || Input.GetMouseButtonDown(0)) && canLeft)
         {
             //Debug.Log("Left");
             canRight = true;
@@ -79,6 +80,7 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
             nextSound++;
             canLeft = false;
             playerSkin.GetComponent<SpriteRenderer>().flipX = false;
+            
             if (nextSound == 2)
             {
                 nextSound = 0;
@@ -89,7 +91,7 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
             return;
 
         }
-        else if (Input.GetMouseButtonDown(1) && canRight)
+        else if ((Input.GetButtonDown("Right_Bumper") || Input.GetMouseButtonDown(1)) && canRight)
         {
             //Debug.Log("Right");
             canLeft = true;
@@ -97,6 +99,7 @@ public class ClimbGameManager : Singleton<ClimbGameManager>
             nextSound++;
             playerPosition++;
             playerSkin.GetComponent<SpriteRenderer>().flipX = true;
+           
             if (nextSound == 2)
             {
                 nextSound = 0;
