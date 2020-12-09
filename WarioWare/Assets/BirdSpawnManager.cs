@@ -49,7 +49,7 @@ namespace TrapioWare
             void InitialisationGenerator2()
             {
                 if (numberOfSpawner2 != numberOfMaxGenerator)
-                {
+                { 
                     int random2 = Random.Range(0, OiseauGenerator2.Count);
 
                     OiseauStoredPoints2.Add(OiseauGenerator2[random2]);
