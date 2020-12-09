@@ -28,7 +28,7 @@ namespace TrapioWare
             public int numberOfMaxGenerator;
 
             // Start is called before the first frame update
-            void Start()
+            void Awake()
             {
                 SetDifficultyAlt();
             }
@@ -38,8 +38,8 @@ namespace TrapioWare
                 if(numberOfSpawner1 != numberOfMaxGenerator)
                 {
                     int random1 = Random.Range(0, OiseauGenerator1.Count);
-
                     OiseauStoredPoints1.Add(OiseauGenerator1[random1]);
+                    OiseauGenerator1[random1].GetComponent<BirdSpawner>().selected = true;
                     OiseauGenerator1.Remove(OiseauGenerator1[random1]);
                     numberOfSpawner1++;
                     InitialisationGenerator1();
@@ -53,6 +53,7 @@ namespace TrapioWare
                     int random2 = Random.Range(0, OiseauGenerator2.Count);
 
                     OiseauStoredPoints2.Add(OiseauGenerator2[random2]);
+                    OiseauGenerator2[random2].GetComponent<BirdSpawner>().selected = true;
                     OiseauGenerator2.Remove(OiseauGenerator2[random2]);
                     numberOfSpawner2++;
                     InitialisationGenerator2();
@@ -67,6 +68,7 @@ namespace TrapioWare
                     int random3 = Random.Range(0, OiseauGenerator3.Count);
 
                     OiseauStoredPoints3.Add(OiseauGenerator3[random3]);
+                    OiseauGenerator3[random3].GetComponent<BirdSpawner>().selected = true;
                     OiseauGenerator3.Remove(OiseauGenerator3[random3]);
                     numberOfSpawner3++;
                     InitialisationGenerator3();

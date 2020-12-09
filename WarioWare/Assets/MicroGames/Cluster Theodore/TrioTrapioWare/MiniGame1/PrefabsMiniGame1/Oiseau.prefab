@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1177892913096206903}
   - component: {fileID: 4751678113081764186}
   m_Layer: 0
-  m_Name: Oiseau (5)
+  m_Name: Oiseau
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goLeft: 1
   goRight: 0
-  speed: 15
+  speed: 17
 --- !u!50 &6035393470315724688
 Rigidbody2D:
   serializedVersion: 4
