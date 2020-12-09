@@ -14,17 +14,17 @@ namespace TrioName
             // Start is called before the first frame update
             void Start()
             {
-                if (ClimbGameManager.Instance.numberOfLadder < ClimbGameManager.Instance.numberOfLadderNeeded)
+                if (TrapioWare.Climb.ClimbGameManager.Instance.numberOfLadder < TrapioWare.Climb.ClimbGameManager.Instance.numberOfLadderNeeded)
                 {
                     GameObject instanciateLadder = Instantiate(ladderPrefab, transform.position, Quaternion.identity);
-                    instanciateLadder.transform.parent = ClimbGameManager.Instance.ladderParent.transform;
-                    ClimbGameManager.Instance.numberOfLadder += 1;
+                    instanciateLadder.transform.parent = TrapioWare.Climb.ClimbGameManager.Instance.ladderParent.transform;
+                    TrapioWare.Climb.ClimbGameManager.Instance.numberOfLadder += 1;
                     //Debug.Log("if");
                 }
                 else
                 {
                     //Instancier le haut du Mat.
-                    ClimbGameManager.Instance.needToCheck = true;
+                    TrapioWare.Climb.ClimbGameManager.Instance.needToCheck = true;
                     //Debug.Log("else");
                 }
 

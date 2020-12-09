@@ -16,7 +16,7 @@ public class FlagBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ClimbGameManager.Instance.needToStop)
+        if (TrapioWare.Climb.ClimbGameManager.Instance.needToStop)
         {
             material.SetFloat("Vector1_B204D08E", 0f);
         }

@@ -6,7 +6,7 @@ public class ClimbLadderManager : MonoBehaviour
 {
     private void Update()
     {
-        if (ClimbGameManager.Instance.needToCheck)
+        if (TrapioWare.Climb.ClimbGameManager.Instance.needToCheck)
         {
             Debug.Log("Check");
             UpdateList();
@@ -19,10 +19,10 @@ public class ClimbLadderManager : MonoBehaviour
     {
         for (int i = 0; i < gameObject.transform.childCount; i++)
         {
-            ClimbGameManager.Instance.positions.Add(gameObject.transform.GetChild(i).gameObject);
+            TrapioWare.Climb.ClimbGameManager.Instance.positions.Add(gameObject.transform.GetChild(i).gameObject);
         }
 
-        ClimbGameManager.Instance.needToCheck = false;
-        ClimbGameManager.Instance.finishInstantiate = true;
+        TrapioWare.Climb.ClimbGameManager.Instance.needToCheck = false;
+        TrapioWare.Climb.ClimbGameManager.Instance.finishInstantiate = true;
     }
 }

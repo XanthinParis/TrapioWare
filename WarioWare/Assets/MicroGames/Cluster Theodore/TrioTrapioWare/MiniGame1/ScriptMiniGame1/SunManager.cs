@@ -29,7 +29,7 @@ namespace TrioName
             {
                 timerDead++;
 
-                if (ClimbGameManager.Instance.needToStop == false && timerDead !=8)
+                if (TrapioWare.Climb.ClimbGameManager.Instance.needToStop == false && timerDead !=8)
                 {
                     gameObject.GetComponent<Animator>().SetTrigger("TickTrigger");
                 }
@@ -38,7 +38,7 @@ namespace TrioName
                 {
                     //Manager.Instance.Result(false);
                     Debug.Log("You Lose");
-                    ClimbGameManager.Instance.needToStop = true;
+                    TrapioWare.Climb.ClimbGameManager.Instance.needToStop = true;
                 }
 
             }
