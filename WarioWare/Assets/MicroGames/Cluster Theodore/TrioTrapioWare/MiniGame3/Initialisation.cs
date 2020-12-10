@@ -36,17 +36,16 @@ namespace TrioTrapioWare
                     tinderPaper[positionOfArray] = tinderPaper[randomizeArray];
                     tinderProfile[randomizeArray] = obj;
                     tinderPaper[randomizeArray] = obj2;
-                    //obj.GetComponent<SpriteRenderer>().sortingOrder = (25 - randomizeArray);
                 }
-                for (int i = 0; i < 25; i++)
+                for (int i = 0; i < 16; i++)
                 {
-                tinderProfile[i].GetComponent<SpriteRenderer>().sortingOrder = (27 - i);
+                tinderProfile[i].GetComponent<SpriteRenderer>().sortingOrder = (18 - i);
                 }
-                    for (int i = 0; i < 25; i++)
+                    for (int i = 0; i < 16; i++)
                 {
                     goodProfile[i] = false;
                 }
-                goodProfileNumber = Random.Range(1, 25);
+                goodProfileNumber = Random.Range(1, 16);
                 for (int i = 0; i < tinderPaper.Length; i++)
                 {
                     tinderPaper[i].SetActive(false);
