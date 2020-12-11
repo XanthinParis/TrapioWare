@@ -202,6 +202,11 @@ namespace TrapioWare
                 joystickGizmo.SetActive(showJoystick);
                 bumperGizmo.SetActive(!showJoystick && !hammerReleased);
 
+                if(spinManager.hasWon && hammerReleased)
+                {
+                    hammerRb.gravityScale = 0;
+                }
+
             }
 
             private void HammerAddForce(bool clockwise)
