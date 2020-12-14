@@ -19,6 +19,16 @@ namespace TrioTrapioWare
             public GameObject[] tinderPaper;
             public GameObject[] tinderPaperDirty;
             public GameObject breakScreen;
+            public GameObject wanted;
+            public GameObject auraMatch;
+            public GameObject auraPersonnage;
+            public GameObject personnageRondVert;
+
+            public GameObject match;
+            public GameObject ecranNoir;
+            public GameObject[] greenCircle;
+            public GameObject epeeDroit;
+            public GameObject epeeGauche;
 
             public bool[] goodProfile;
             public bool canPlay;
@@ -26,62 +36,29 @@ namespace TrioTrapioWare
             public int goodProfileNumber;
             public int profilAnalizing = 0;
             public int tickSwipe = 0;
-            Vector3 Rotation = new Vector3 (0f, 0f, 28f);
+            Vector3 RotationSwipe = new Vector3(0f, 0f, 28f);
+            Vector3 RotationEpees = new Vector3(0f, 0f, 25f);
 
 
             public override void Start()
             {
                 base.Start(); //Do not erase this line!
-                tinderProfile = GameObject.FindGameObjectsWithTag("Button1");
-                tinderPaper = GameObject.FindGameObjectsWithTag("Button2");
-                tinderPaperDirty = GameObject.FindGameObjectsWithTag("Wall");
-                for (int positionOfArray = 0; positionOfArray < tinderProfile.Length; positionOfArray++)
-                {
-                    GameObject obj = tinderProfile[positionOfArray];
-                    GameObject obj2 = tinderPaper[positionOfArray];
-                    GameObject obj3 = tinderPaperDirty[positionOfArray];
-                    int randomizeArray = Random.Range(0, positionOfArray);
-                    tinderProfile[positionOfArray] = tinderProfile[randomizeArray];
-                    tinderPaper[positionOfArray] = tinderPaper[randomizeArray];
-                    tinderPaperDirty[positionOfArray] = tinderPaperDirty[randomizeArray];
-                    tinderProfile[randomizeArray] = obj;
-                    tinderPaper[randomizeArray] = obj2;
-                    tinderPaperDirty[randomizeArray] = obj3;
-                }
 
-                for (int i = 0; i < 16; i++)
-                {
-                    tinderProfile[i].GetComponent<SpriteRenderer>().sortingOrder = (17 - i);
-                }
-
-                for (int i = 0; i < 16; i++)
-                {
-                    goodProfile[i] = false;
-                }
-
-                goodProfileNumber = Random.Range(1, 16);
-
-                for (int i = 0; i < tinderPaper.Length; i++)
-                {
-                    tinderPaper[i].SetActive(false);
-                    tinderPaperDirty[i].SetActive(false);
-                }
+                RandomSorting();
+                ecranNoir.SetActive(false);
+                ProfilSelection();
 
                 switch (currentDifficulty)
                 {
-                    case Testing.Manager.Difficulty.EASY:
-                        goodProfile[goodProfileNumber] = true;
+                    case Difficulty.EASY:
                         tinderPaper[goodProfileNumber].SetActive(true);
                         breakScreen.SetActive(false);
                         break;
-                    case Testing.Manager.Difficulty.MEDIUM:
-                        goodProfile[goodProfileNumber] = true;
+                    case Difficulty.MEDIUM:
                         tinderPaper[goodProfileNumber].SetActive(true);
-
                         breakScreen.SetActive(true);
                         break;
-                    case Testing.Manager.Difficulty.HARD:
-                        goodProfile[goodProfileNumber] = true;
+                    case Difficulty.HARD:
                         tinderPaperDirty[goodProfileNumber].SetActive(true);
                         breakScreen.SetActive(true);
                         break;
@@ -113,6 +90,7 @@ namespace TrioTrapioWare
                         SwipeDroite();
                         canPlay = false;
                         Debug.Log("Victoire");
+                        AnimVictoire();
                     }
                     if (goodProfile[profilAnalizing] == false)
                     {
@@ -135,18 +113,84 @@ namespace TrioTrapioWare
                         profilAnalizing++;
                     }
                 }
+
+                auraMatch.transform.Rotate(new Vector3(0, 0, 100f * Time.deltaTime));
+                auraPersonnage.transform.Rotate(new Vector3(0, 0, 100f * Time.deltaTime));
             }
-            public void SwipeGauche()
+            public void RandomSorting()
+            {
+                tinderProfile = GameObject.FindGameObjectsWithTag("Button1");
+                tinderPaper = GameObject.FindGameObjectsWithTag("Button2");
+                tinderPaperDirty = GameObject.FindGameObjectsWithTag("Wall");
+                greenCircle = GameObject.FindGameObjectsWithTag("Finish");
+                for (int positionOfArray = 0; positionOfArray < tinderProfile.Length; positionOfArray++)
+                {
+                    GameObject obj = tinderProfile[positionOfArray];
+                    GameObject obj2 = tinderPaper[positionOfArray];
+                    GameObject obj3 = tinderPaperDirty[positionOfArray];
+                    GameObject obj4 = greenCircle[positionOfArray];
+                    int randomizeArray = Random.Range(0, positionOfArray);
+                    tinderProfile[positionOfArray] = tinderProfile[randomizeArray];
+                    tinderPaper[positionOfArray] = tinderPaper[randomizeArray];
+                    tinderPaperDirty[positionOfArray] = tinderPaperDirty[randomizeArray];
+                    greenCircle[positionOfArray] = greenCircle[randomizeArray];
+                    tinderProfile[randomizeArray] = obj;
+                    tinderPaper[randomizeArray] = obj2;
+                    tinderPaperDirty[randomizeArray] = obj3;
+                    greenCircle[randomizeArray] = obj4;
+
+                    for (int i = 0; i < 16; i++)
+                    {
+                        tinderProfile[i].GetComponent<SpriteRenderer>().sortingOrder = (17 - i);
+                    }
+                }
+            }
+
+            public void ProfilSelection()
+            {
+                goodProfileNumber = Random.Range(1, 16);
+                for (int i = 0; i < 16; i++)
+                {
+                    goodProfile[i] = false;
+                }
+                for (int i = 0; i < tinderPaper.Length; i++)
+                {
+                    tinderPaper[i].SetActive(false);
+                    tinderPaperDirty[i].SetActive(false);
+                }
+                goodProfile[goodProfileNumber] = true;
+            }
+
+        public void SwipeGauche()
             {
                 tinderProfile[profilAnalizing].transform.DOMoveX(1f, 0.2f);
                 tinderProfile[profilAnalizing].transform.DOMoveY(-3f, 0.2f);
-                tinderProfile[profilAnalizing].transform.DORotate(Rotation, 0.2f);
+                tinderProfile[profilAnalizing].transform.DORotate(RotationSwipe, 0.2f);
             }
             public void SwipeDroite()
             {
                 tinderProfile[profilAnalizing].transform.DOMoveX(7f, 0.2f);
                 tinderProfile[profilAnalizing].transform.DOMoveY(-3f, 0.2f);
-                tinderProfile[profilAnalizing].transform.DORotate(-Rotation, 0.2f);
+                tinderProfile[profilAnalizing].transform.DORotate(-RotationSwipe, 0.2f);
+            }
+
+            public void AnimVictoire()
+            {
+                ecranNoir.SetActive(true);
+                for (int i = 0; i < greenCircle.Length; i++)
+                {
+                    greenCircle[i].SetActive(false);
+                }
+                greenCircle[goodProfileNumber].SetActive(true);
+                greenCircle[goodProfileNumber].transform.DOScale(1f, (0.2f * 60 / bpm));
+                personnageRondVert.transform.DOScale(0.2f, (0.2f * 60 / bpm));
+                auraMatch.transform.DOScale(0.3f, (0.2f * 60 / bpm));
+                auraPersonnage.transform.DOScale(0.3f, (0.2f * 60 / bpm));
+                match.transform.DOScale(0.23f, (0.2f*60/bpm));
+                epeeDroit.transform.DOMoveX(0.2f, (0.4f * 60 / bpm));
+                epeeDroit.transform.DORotate(RotationEpees, (0.4f * 60 / bpm));
+                epeeGauche.transform.DOMoveX(-0.2f, (0.4f * 60 / bpm));
+                epeeGauche.transform.DORotate(-RotationEpees, (0.4f * 60 / bpm));
             }
         }
     }
