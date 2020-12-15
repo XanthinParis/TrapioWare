@@ -35,6 +35,7 @@ namespace TrapioWare
             IEnumerator SpawnBirds()
             {
                 GameObject storedBird = Instantiate(bird, transform.position, Quaternion.identity);
+                storedBird.transform.parent = ClimbGameManager.Instance.transform;
                 if (!isRight)
                 {
                     storedBird.GetComponent<BirdBehaviour>().goLeft = false;

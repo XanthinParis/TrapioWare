@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Testing;
+
 
 namespace TrapioWare
 {
@@ -42,27 +42,12 @@ namespace TrapioWare
             [Header("Parrot")]
             [SerializeField] private GameObject parrot;
 
-            public int difficulty = 0;
+            public int myDifficulty = 0;
+            public float mySpeed = 0;
 
             private void Awake()
             {
-                CreateSingleton(true);
-
-               /*switch (Manager.Instance.currentDifficulty)
-                {
-                    case Manager.Difficulty.EASY:
-                        difficulty = 0;
-                        break;
-                    case Manager.Difficulty.MEDIUM:
-                        difficulty = 1;
-                        break;
-                    case Manager.Difficulty.HARD:
-                        difficulty = 2;
-                        break;
-                    default:
-                        break;
-                }
-               */
+                CreateSingleton();
             }
 
             private void Update()
@@ -122,6 +107,7 @@ namespace TrapioWare
                     {
                         nextSound = 0;
                         GameObject audiosourceSpawned = Instantiate(audioSource, transform.position, Quaternion.identity);
+                        audiosourceSpawned.transform.parent = gameObject.transform;
                         audiosourceSpawned.GetComponent<AudioSource>().clip = inputSounds[playerPosition / 2];
                         audiosourceSpawned.GetComponent<AudioSource>().Play();
                     }

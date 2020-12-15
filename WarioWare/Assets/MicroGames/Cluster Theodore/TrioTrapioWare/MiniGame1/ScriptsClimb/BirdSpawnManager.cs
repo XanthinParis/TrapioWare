@@ -88,7 +88,7 @@ namespace TrapioWare
             void SetDifficulty()
             {
                 //NumberOfMaxGenerator according difficulty
-                switch (ClimbGameManager.Instance.difficulty)
+                switch (ClimbGameManager.Instance.myDifficulty)
                 {
                     case 0:
                         numberOfMaxGenerator = 2;

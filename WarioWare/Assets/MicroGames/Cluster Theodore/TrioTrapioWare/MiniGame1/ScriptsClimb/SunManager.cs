@@ -15,6 +15,39 @@ namespace TrapioWare
             public override void Start()
             {
                 base.Start(); //Do not erase this line!
+                
+                switch (Manager.Instance.bpm)
+                {
+                    case BPM.Slow:
+                        ClimbGameManager.Instance.mySpeed = 60;
+                        break;
+                    case BPM.Medium:
+                        ClimbGameManager.Instance.mySpeed = 90;
+                        break;
+                    case BPM.Fast:
+                        ClimbGameManager.Instance.mySpeed = 120;
+                        break;
+                    case BPM.SuperFast:
+                        ClimbGameManager.Instance.mySpeed = 140;
+                        break;
+                    default:
+                        break;
+                }
+
+                switch (Manager.Instance.currentDifficulty)
+                {
+                    case Difficulty.EASY:
+                        ClimbGameManager.Instance.myDifficulty = 0;
+                        break;
+                    case Difficulty.MEDIUM:
+                        ClimbGameManager.Instance.myDifficulty = 1;
+                        break;
+                    case Difficulty.HARD:
+                        ClimbGameManager.Instance.myDifficulty = 2;
+                        break;
+                    default:
+                        break;
+                }
 
             }
 
