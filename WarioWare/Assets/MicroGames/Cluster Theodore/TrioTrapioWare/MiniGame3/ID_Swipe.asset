@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cluster: 0
   trio: TrapioWare
-  haptiqueChal: 0
-  inputChal: 0
   indexEnum: 2
   verbe: Swipe
   microGameScene:
     sceneAsset: {fileID: 102900000, guid: 535ec2bb8a65f414fb9c9315cba272c2, type: 3}
     required: 0
     buildIndex: 2
+  inputs: {fileID: 0}
   currentDifficulty: 0
+  idWeight: 0
+  hasBarrel: 0

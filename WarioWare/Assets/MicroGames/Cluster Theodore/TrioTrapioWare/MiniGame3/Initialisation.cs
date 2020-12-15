@@ -20,18 +20,35 @@ namespace TrioTrapioWare
             public GameObject[] tinderPaperDirty;
             public GameObject breakScreen;
             public GameObject wanted;
+            public GameObject paper;
+
             public GameObject auraMatch;
             public GameObject auraPersonnage;
             public GameObject personnageRondVert;
-
             public GameObject match;
             public GameObject ecranNoir;
             public GameObject[] greenCircle;
             public GameObject epeeDroit;
             public GameObject epeeGauche;
 
+            public GameObject personnageRondRouge;
+            public GameObject auraPersonnageDefaite;
+            public GameObject rate;
+            public GameObject ecranDefaite;
+
+            //Sons
+            public AudioSource ambianceNavire;
+            public AudioSource swipeSound;
+            public AudioSource winSound;
+            public AudioSource defeatSound;
+            public AudioSource paperSound;
+
             public bool[] goodProfile;
             public bool canPlay;
+            public bool gameEnd;
+
+            public bool win;
+            public bool defeat;
 
             public int goodProfileNumber;
             public int profilAnalizing = 0;
@@ -75,37 +92,42 @@ namespace TrioTrapioWare
             public override void TimedUpdate()
             {
                 tickSwipe++;
-                if (Tick == 8)
+                if (Tick == 8 && canPlay == true || Tick == 8 && defeat == true)
                 {
-
+                    canPlay = false;
+                    Manager.Instance.Result(false);
+                }
+                if (Tick == 8 && win == true)
+                {
+                    canPlay = false;
+                    Manager.Instance.Result(true);
                 }
             }
 
             void Update()
             {
-                if (Input.GetButtonDown("B_Button") && canPlay)
+                PaperInit();
+                AuraRotation();
+
+                if (Input.GetButtonDown("B_Button") && canPlay && Manager.Instance.isLoaded)
                 {
                     if (goodProfile[profilAnalizing] == true)
                     {
                         SwipeDroite();
-                        canPlay = false;
-                        Debug.Log("Victoire");
                         AnimVictoire();
                     }
                     if (goodProfile[profilAnalizing] == false)
                     {
                         SwipeDroite();
-                        canPlay = false;
-                        Debug.Log("Défaite");
+                        AnimDefaite();
                     }
                 }
-                if (Input.GetButtonDown("X_Button") && canPlay)
+                if (Input.GetButtonDown("X_Button") && canPlay && Manager.Instance.isLoaded)
                 {
                     if (goodProfile[profilAnalizing] == true)
                     {
                         SwipeGauche();
-                        canPlay = false;
-                        Debug.Log("Défaite");
+                        AnimDefaite();
                     }
                     if (goodProfile[profilAnalizing] == false)
                     {
@@ -113,9 +135,6 @@ namespace TrioTrapioWare
                         profilAnalizing++;
                     }
                 }
-
-                auraMatch.transform.Rotate(new Vector3(0, 0, 100f * Time.deltaTime));
-                auraPersonnage.transform.Rotate(new Vector3(0, 0, 100f * Time.deltaTime));
             }
             public void RandomSorting()
             {
@@ -161,14 +180,16 @@ namespace TrioTrapioWare
                 goodProfile[goodProfileNumber] = true;
             }
 
-        public void SwipeGauche()
+            public void SwipeGauche()
             {
+                swipeSound.Play();
                 tinderProfile[profilAnalizing].transform.DOMoveX(1f, 0.2f);
                 tinderProfile[profilAnalizing].transform.DOMoveY(-3f, 0.2f);
                 tinderProfile[profilAnalizing].transform.DORotate(RotationSwipe, 0.2f);
             }
             public void SwipeDroite()
             {
+                swipeSound.Play();
                 tinderProfile[profilAnalizing].transform.DOMoveX(7f, 0.2f);
                 tinderProfile[profilAnalizing].transform.DOMoveY(-3f, 0.2f);
                 tinderProfile[profilAnalizing].transform.DORotate(-RotationSwipe, 0.2f);
@@ -176,6 +197,9 @@ namespace TrioTrapioWare
 
             public void AnimVictoire()
             {
+                winSound.Play();
+                canPlay = false;
+                win = true;
                 ecranNoir.SetActive(true);
                 for (int i = 0; i < greenCircle.Length; i++)
                 {
@@ -186,11 +210,38 @@ namespace TrioTrapioWare
                 personnageRondVert.transform.DOScale(0.2f, (0.2f * 60 / bpm));
                 auraMatch.transform.DOScale(0.3f, (0.2f * 60 / bpm));
                 auraPersonnage.transform.DOScale(0.3f, (0.2f * 60 / bpm));
-                match.transform.DOScale(0.23f, (0.2f*60/bpm));
+                match.transform.DOScale(0.23f, (0.2f * 60 / bpm));
                 epeeDroit.transform.DOMoveX(0.2f, (0.4f * 60 / bpm));
                 epeeDroit.transform.DORotate(RotationEpees, (0.4f * 60 / bpm));
                 epeeGauche.transform.DOMoveX(-0.2f, (0.4f * 60 / bpm));
                 epeeGauche.transform.DORotate(-RotationEpees, (0.4f * 60 / bpm));
+            }
+
+            public void AnimDefaite()
+            {
+                defeatSound.Play();
+                canPlay = false;
+                defeat = true;
+                ecranDefaite.SetActive(true);
+                personnageRondRouge.transform.DOScale(0.2f, (0.2f * 60 / bpm));
+                auraPersonnageDefaite.transform.DOScale(0.3f, (0.2f * 60 / bpm));
+                rate.transform.DOScale(0.23f, (0.2f * 60 / bpm));
+            }
+
+            public void PaperInit()
+            {
+                if (Tick == 0)
+                {
+                    paperSound.Play();
+                    paper.transform.DOMoveY(-0.6f, 0.2f);
+                }
+            }
+
+            public void AuraRotation()
+            {
+                auraMatch.transform.Rotate(new Vector3(0, 0, 100f * Time.deltaTime));
+                auraPersonnage.transform.Rotate(new Vector3(0, 0, 100f * Time.deltaTime));
+                auraPersonnageDefaite.transform.Rotate(new Vector3(0, 0, 100f * Time.deltaTime));
             }
         }
     }
