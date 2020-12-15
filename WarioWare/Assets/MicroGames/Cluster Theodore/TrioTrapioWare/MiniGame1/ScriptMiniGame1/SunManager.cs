@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Testing;
 
-namespace TrioName
+
+namespace TrapioWare
 {
-    namespace MiniGameName
+    namespace Climb
     {
         public class SunManager : TimedBehaviour
         {
@@ -34,10 +35,11 @@ namespace TrioName
                     gameObject.GetComponent<Animator>().SetTrigger("TickTrigger");
                 }
 
-                if(timerDead == 8)
+                if(timerDead == 8 && ClimbGameManager.Instance.lose == false)
                 {
                     //Manager.Instance.Result(false);
                     Debug.Log("You Lose");
+                    TrapioWare.Climb.ClimbGameManager.Instance.lose = true;
                     TrapioWare.Climb.ClimbGameManager.Instance.needToStop = true;
                 }
 

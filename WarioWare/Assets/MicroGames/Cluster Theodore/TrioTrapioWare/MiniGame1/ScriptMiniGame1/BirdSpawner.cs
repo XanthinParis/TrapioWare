@@ -24,7 +24,7 @@ namespace TrapioWare
 
             void Start()
             {
-                fireRateLevel = Random.Range(1f, 3f);
+                fireRateLevel = Random.Range(2f, 4f);
 
                 if (selected)
                 {

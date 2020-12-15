@@ -30,6 +30,7 @@ namespace TrapioWare
             private bool canRight = true;
             public bool finishInstantiate = false;
             public bool win = false;
+            public bool lose = false;
 
             public bool needToStop = false;
 
@@ -37,6 +38,9 @@ namespace TrapioWare
             [SerializeField] private GameObject audioSource;
             [SerializeField] private AudioClip[] inputSounds;
             [SerializeField] private int nextSound = 0;
+
+            [Header("Parrot")]
+            [SerializeField] private GameObject parrot;
 
             public int difficulty = 0;
 
@@ -63,6 +67,12 @@ namespace TrapioWare
 
             private void Update()
             {
+                if (lose)
+                {
+                    playerSkin.GetComponent<Animator>().SetTrigger("Lose");
+                }
+                
+
                 if (needToStop || win)
                 {
                     needToStop = true;
@@ -75,7 +85,8 @@ namespace TrapioWare
                     win = true;
                     canLeft = false;
                     canRight = false;
-
+                    parrot.GetComponent<AudioSource>().Play();
+                    parrot.GetComponent<Animator>().SetTrigger("Victory");
                     Debug.Log("You WIN");
 
                 }
