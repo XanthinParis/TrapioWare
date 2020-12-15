@@ -1750,6 +1750,8 @@ MonoBehaviour:
   canonBreakClips:
   - {fileID: 8300000, guid: 8f892db9a56dbd447a2a2d75992308b7, type: 3}
   - {fileID: 8300000, guid: 5793c55b4cabeb843b64f91490d7d30b, type: 3}
+  playerChara: {fileID: 1141727650}
+  hammer: {fileID: 1073740686}
   hasWon: 0
   gameFinished: 0
 --- !u!4 &789610503

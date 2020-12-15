@@ -17,6 +17,8 @@ namespace TrapioWare
             public GameObject canonHoleEffect;
             public GameObject canonHoleFinalEffect;
             public AudioClip[] canonBreakClips;
+            public GameObject playerChara;
+            public GameObject hammer;
 
             [HideInInspector] public bool hasWon;
             [HideInInspector] public bool gameFinished;
@@ -54,9 +56,7 @@ namespace TrapioWare
 
                 if(Tick - 1 == 8 && !gameFinished && !hasInlimitedTime)
                 {
-                    gameFinished = true;
-                    SpawnHole(7, true);
-                    Manager.Instance.Result(false);
+                    Lose();
                 }
             }
 
@@ -80,7 +80,21 @@ namespace TrapioWare
                 {
                     gameFinished = true;
                     hasWon = true;
+                    StartCoroutine(EndAnim());
                     Manager.Instance.Result(true);
+                }
+            }
+
+
+            public void Lose()
+            {
+                if (!gameFinished)
+                {
+                    gameFinished = true;
+                    SpawnHole(7, true);
+                    playerChara.SetActive(false);
+                    hammer.SetActive(false);
+                    Manager.Instance.Result(false);
                 }
             }
 
@@ -98,6 +112,15 @@ namespace TrapioWare
                 public GameObject target;
                 public GameObject background;
                 public GameObject boundaries;
+            }
+
+            private IEnumerator EndAnim()
+            {
+                while(playerChara.transform.position.y < 100)
+                {
+                    yield return new WaitForEndOfFrame();
+                    playerChara.transform.position = new Vector2(playerChara.transform.position.x, playerChara.transform.position.y + 0.3f);
+                }
             }
         }
     }

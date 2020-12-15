@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class TimedBehaviour : MonoBehaviour
 {
-   [HideInInspector] public float bpm = 60;
-    [HideInInspector] public Manager.Difficulty currentDifficulty = 0;
+    [HideInInspector] public float bpm = 60;
+    [HideInInspector] public Difficulty currentDifficulty = 0;
 
     public double timer;
     public double currentTime;
@@ -23,7 +23,7 @@ public class TimedBehaviour : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "TestingScene")
         {
-            bpm =(float) Manager.Instance.bpm;
+            bpm = (float)Manager.Instance.bpm;
             currentDifficulty = Manager.Instance.currentDifficulty;
             currentTime = AudioSettings.dspTime;
         }
@@ -40,7 +40,7 @@ public class TimedBehaviour : MonoBehaviour
             TimedUpdate();
         }
     }
-  
+
 
     /// <summary>
     /// TimedUdpate is called at each tick. Use this if you want your script to update with rythme.
