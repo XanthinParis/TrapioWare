@@ -61,6 +61,7 @@ namespace TrioTrapioWare
             {
                 base.Start(); //Do not erase this line!
 
+                paperSound.Play();
                 RandomSorting();
                 ecranNoir.SetActive(false);
                 ProfilSelection();
@@ -232,7 +233,6 @@ namespace TrioTrapioWare
             {
                 if (Tick == 0)
                 {
-                    paperSound.Play();
                     paper.transform.DOMoveY(-0.6f, 0.2f);
                 }
             }
