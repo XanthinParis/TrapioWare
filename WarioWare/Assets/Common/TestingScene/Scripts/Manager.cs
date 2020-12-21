@@ -28,11 +28,13 @@ namespace Testing {
         public TextMeshProUGUI verbeText;
         public Image inputImage;
         public GameObject sceneCam;
+        public bool isLoaded;
         #endregion
 
         #region Methods
         public IEnumerator Start()
         {
+            yield return new WaitForSeconds(0.5f);
             var _scene = SceneManager.LoadSceneAsync(idCard.microGameScene.BuildIndex, LoadSceneMode.Additive);
             _scene.allowSceneActivation = false;
             verbeText.text = idCard.verbe;
@@ -41,6 +43,7 @@ namespace Testing {
             sceneCam.SetActive(false);
             verbePanel.SetActive(false);
             _scene.allowSceneActivation = true;
+            isLoaded = true;
         }
 
         /// <summary>
