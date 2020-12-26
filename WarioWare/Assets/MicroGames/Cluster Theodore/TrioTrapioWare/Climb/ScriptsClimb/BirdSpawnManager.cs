@@ -28,34 +28,40 @@ namespace TrapioWare
             public int numberOfMaxGenerator;
 
             // Start is called before the first frame update
-            void Awake()
+            void Update()
             {
-                SetDifficultyAlt();
+                if (ClimbGameManager.Instance.setDifficulty)
+                {
+                    ClimbGameManager.Instance.setDifficulty = false;
+                    SetDifficulty();
+                    //SetDifficulty();
+                }
             }
 
             void InitialisationGenerator1()
             {
-                if(numberOfSpawner1 != numberOfMaxGenerator)
+                int random1 = Random.Range(0, OiseauGenerator1.Count);
+                OiseauStoredPoints1.Add(OiseauGenerator1[random1]);
+                OiseauGenerator1[random1].GetComponent<BirdSpawner>().selected = true;
+                OiseauGenerator1.Remove(OiseauGenerator1[random1]);
+                numberOfSpawner1++;
+                if (numberOfSpawner1 != numberOfMaxGenerator)
                 {
-                    int random1 = Random.Range(0, OiseauGenerator1.Count);
-                    OiseauStoredPoints1.Add(OiseauGenerator1[random1]);
-                    OiseauGenerator1[random1].GetComponent<BirdSpawner>().selected = true;
-                    OiseauGenerator1.Remove(OiseauGenerator1[random1]);
-                    numberOfSpawner1++;
                     InitialisationGenerator1();
                 }
             }
 
             void InitialisationGenerator2()
             {
+                int random2 = Random.Range(0, OiseauGenerator2.Count);
+
+                OiseauStoredPoints2.Add(OiseauGenerator2[random2]);
+                OiseauGenerator2[random2].GetComponent<BirdSpawner>().selected = true;
+                OiseauGenerator2.Remove(OiseauGenerator2[random2]);
+                numberOfSpawner2++;
                 if (numberOfSpawner2 != numberOfMaxGenerator)
                 { 
-                    int random2 = Random.Range(0, OiseauGenerator2.Count);
-
-                    OiseauStoredPoints2.Add(OiseauGenerator2[random2]);
-                    OiseauGenerator2[random2].GetComponent<BirdSpawner>().selected = true;
-                    OiseauGenerator2.Remove(OiseauGenerator2[random2]);
-                    numberOfSpawner2++;
+                   
                     InitialisationGenerator2();
                 }
 
@@ -63,14 +69,15 @@ namespace TrapioWare
 
             void InitialisationGenerator3()
             {
+                int random3 = Random.Range(0, OiseauGenerator3.Count);
+
+                OiseauStoredPoints3.Add(OiseauGenerator3[random3]);
+                OiseauGenerator3[random3].GetComponent<BirdSpawner>().selected = true;
+                OiseauGenerator3.Remove(OiseauGenerator3[random3]);
+                numberOfSpawner3++;
                 if (numberOfSpawner3 != numberOfMaxGenerator)
                 {
-                    int random3 = Random.Range(0, OiseauGenerator3.Count);
-
-                    OiseauStoredPoints3.Add(OiseauGenerator3[random3]);
-                    OiseauGenerator3[random3].GetComponent<BirdSpawner>().selected = true;
-                    OiseauGenerator3.Remove(OiseauGenerator3[random3]);
-                    numberOfSpawner3++;
+                   
                     InitialisationGenerator3();
                 }
 
@@ -78,10 +85,14 @@ namespace TrapioWare
 
             void SetDifficultyAlt()
             {
-                numberOfMaxGenerator = Random.Range(2, 5);
-                InitialisationGenerator1();
-                InitialisationGenerator2();
-                InitialisationGenerator3();
+                
+                    numberOfMaxGenerator = Random.Range(2, 5);
+                    InitialisationGenerator1();
+                    InitialisationGenerator2();
+                    InitialisationGenerator3();
+                
+
+               
             }
 
 
@@ -91,19 +102,22 @@ namespace TrapioWare
                 switch (ClimbGameManager.Instance.myDifficulty)
                 {
                     case 0:
-                        numberOfMaxGenerator = 2;
+                        numberOfMaxGenerator = 1;
+                        Debug.Log(numberOfMaxGenerator);
                         InitialisationGenerator1();
                         InitialisationGenerator2();
                         InitialisationGenerator3();
                         break;
                     case 1:
-                        numberOfMaxGenerator = 3;
+                        numberOfMaxGenerator = 2;
+                        Debug.Log(numberOfMaxGenerator);
                         InitialisationGenerator1();
                         InitialisationGenerator2();
                         InitialisationGenerator3();
                         break;
                     case 2:
-                        numberOfMaxGenerator = 4;
+                        numberOfMaxGenerator = 3;
+                        Debug.Log(numberOfMaxGenerator);
                         InitialisationGenerator1();
                         InitialisationGenerator2();
                         InitialisationGenerator3();

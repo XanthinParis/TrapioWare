@@ -38,12 +38,18 @@ namespace TrapioWare
                 {
                     case Difficulty.EASY:
                         ClimbGameManager.Instance.myDifficulty = 0;
+                        Debug.Log(ClimbGameManager.Instance.myDifficulty);
+                        ClimbGameManager.Instance.setDifficulty = true;
                         break;
                     case Difficulty.MEDIUM:
                         ClimbGameManager.Instance.myDifficulty = 1;
+                        Debug.Log(ClimbGameManager.Instance.myDifficulty);
+                        ClimbGameManager.Instance.setDifficulty = true;
                         break;
                     case Difficulty.HARD:
                         ClimbGameManager.Instance.myDifficulty = 2;
+                        Debug.Log(ClimbGameManager.Instance.myDifficulty);
+                        ClimbGameManager.Instance.setDifficulty = true;
                         break;
                     default:
                         break;

@@ -22,18 +22,19 @@ namespace TrapioWare
 
             [SerializeField] private GameObject bird;
 
-            void Start()
+            void Update()
             {
-                fireRateLevel = Random.Range(2f, 4f);
-
                 if (selected)
                 {
+                    selected = false;
                     StartCoroutine(SpawnBirds());
                 }
             }
 
             IEnumerator SpawnBirds()
             {
+                fireRateLevel = Random.Range(2f, 4f);
+
                 GameObject storedBird = Instantiate(bird, transform.position, Quaternion.identity);
                 storedBird.transform.parent = ClimbGameManager.Instance.transform;
                 if (!isRight)
