@@ -36,6 +36,15 @@ namespace TrioTrapioWare
             public GameObject rate;
             public GameObject ecranDefaite;
 
+            //UI
+
+            public GameObject rondB;
+            public GameObject rondX;
+            public GameObject rondBAppuye;
+            public GameObject rondXAppuye;
+            public GameObject auraVerteUI;
+            public GameObject auraRougeUI;
+
             //Sons
             public AudioSource ambianceNavire;
             public AudioSource swipeSound;
@@ -109,32 +118,43 @@ namespace TrioTrapioWare
             {
                 PaperInit();
                 AuraRotation();
+                AuraFacile();
 
                 if (Input.GetButtonDown("B_Button") && canPlay && Manager.Instance.isLoaded)
                 {
+                    PressionBAnnim();
+                    SwipeDroite();
+
                     if (goodProfile[profilAnalizing] == true)
                     {
-                        SwipeDroite();
                         AnimVictoire();
                     }
                     if (goodProfile[profilAnalizing] == false)
                     {
-                        SwipeDroite();
                         AnimDefaite();
                     }
                 }
                 if (Input.GetButtonDown("X_Button") && canPlay && Manager.Instance.isLoaded)
                 {
+                    SwipeGauche();
+                    PressionXAnnim();
+
                     if (goodProfile[profilAnalizing] == true)
                     {
-                        SwipeGauche();
                         AnimDefaite();
                     }
                     if (goodProfile[profilAnalizing] == false)
                     {
-                        SwipeGauche();
                         profilAnalizing++;
                     }
+                }
+                if (Input.GetButtonUp("B_Button") && Manager.Instance.isLoaded)
+                {
+                    RelacherBAnnim();
+                }
+                if (Input.GetButtonUp("X_Button") && Manager.Instance.isLoaded)
+                {
+                    RelacherXAnnim();
                 }
             }
             public void RandomSorting()
@@ -242,6 +262,48 @@ namespace TrioTrapioWare
                 auraMatch.transform.Rotate(new Vector3(0, 0, 100f * Time.deltaTime));
                 auraPersonnage.transform.Rotate(new Vector3(0, 0, 100f * Time.deltaTime));
                 auraPersonnageDefaite.transform.Rotate(new Vector3(0, 0, 100f * Time.deltaTime));
+                auraVerteUI.transform.Rotate(new Vector3(0, 0, 100f * Time.deltaTime));
+                auraRougeUI.transform.Rotate(new Vector3(0, 0, 100f * Time.deltaTime));
+            }
+
+            public void AuraFacile()
+            {
+                switch (currentDifficulty)
+                {
+                    case Difficulty.EASY:
+                        if (goodProfile[profilAnalizing] == true)
+                        {
+                            auraRougeUI.SetActive(false);
+                            auraVerteUI.SetActive(true);
+                        }
+                        if (goodProfile[profilAnalizing] == false)
+                        {
+                            auraRougeUI.SetActive(true);
+                            auraVerteUI.SetActive(false);
+                        }
+                        break;
+                }
+            }
+
+            public void PressionBAnnim()
+            {
+                rondBAppuye.SetActive(true);
+                rondB.SetActive(false);
+            }
+            public void RelacherBAnnim()
+            {
+                rondBAppuye.SetActive(false);
+                rondB.SetActive(true);
+            }
+            public void PressionXAnnim()
+            {
+                rondXAppuye.SetActive(true);
+                rondX.SetActive(false);
+            }
+            public void RelacherXAnnim()
+            {
+                rondXAppuye.SetActive(false);
+                rondX.SetActive(true);
             }
         }
     }
