@@ -44,6 +44,8 @@ namespace TrioTrapioWare
             public GameObject rondXAppuye;
             public GameObject auraVerteUI;
             public GameObject auraRougeUI;
+            public GameObject AuraVertProfil;
+            public GameObject AuraRougeProfil;
 
             //Sons
             public AudioSource ambianceNavire;
@@ -73,19 +75,21 @@ namespace TrioTrapioWare
                 paperSound.Play();
                 RandomSorting();
                 ecranNoir.SetActive(false);
-                ProfilSelection();
 
                 switch (currentDifficulty)
                 {
                     case Difficulty.EASY:
+                        ProfilSelectionEasy();
                         tinderPaper[goodProfileNumber].SetActive(true);
                         breakScreen.SetActive(false);
                         break;
                     case Difficulty.MEDIUM:
+                        ProfilSelectionMedium();
                         tinderPaper[goodProfileNumber].SetActive(true);
                         breakScreen.SetActive(true);
                         break;
                     case Difficulty.HARD:
+                        ProfilSelectionHard();
                         tinderPaperDirty[goodProfileNumber].SetActive(true);
                         breakScreen.SetActive(true);
                         break;
@@ -120,7 +124,7 @@ namespace TrioTrapioWare
                 AuraRotation();
                 AuraFacile();
 
-                if (Input.GetButtonDown("B_Button") && canPlay && Manager.Instance.isLoaded)
+                if (Input.GetButtonDown("B_Button") && canPlay)
                 {
                     PressionBAnnim();
                     SwipeDroite();
@@ -134,7 +138,7 @@ namespace TrioTrapioWare
                         AnimDefaite();
                     }
                 }
-                if (Input.GetButtonDown("X_Button") && canPlay && Manager.Instance.isLoaded)
+                if (Input.GetButtonDown("X_Button") && canPlay)
                 {
                     SwipeGauche();
                     PressionXAnnim();
@@ -148,11 +152,11 @@ namespace TrioTrapioWare
                         profilAnalizing++;
                     }
                 }
-                if (Input.GetButtonUp("B_Button") && Manager.Instance.isLoaded)
+                if (Input.GetButtonUp("B_Button"))
                 {
                     RelacherBAnnim();
                 }
-                if (Input.GetButtonUp("X_Button") && Manager.Instance.isLoaded)
+                if (Input.GetButtonUp("X_Button"))
                 {
                     RelacherXAnnim();
                 }
@@ -186,10 +190,40 @@ namespace TrioTrapioWare
                 }
             }
 
-            public void ProfilSelection()
+            public void ProfilSelectionEasy()
             {
                 goodProfileNumber = Random.Range(1, 16);
-                for (int i = 0; i < 16; i++)
+                for (int i = 0; i < 12; i++)
+                {
+                    goodProfile[i] = false;
+                }
+                for (int i = 0; i < tinderPaper.Length; i++)
+                {
+                    tinderPaper[i].SetActive(false);
+                    tinderPaperDirty[i].SetActive(false);
+                }
+                goodProfile[goodProfileNumber] = true;
+            }
+
+            public void ProfilSelectionMedium()
+            {
+                goodProfileNumber = Random.Range(1, 16);
+                for (int i = 0; i < 10; i++)
+                {
+                    goodProfile[i] = false;
+                }
+                for (int i = 0; i < tinderPaper.Length; i++)
+                {
+                    tinderPaper[i].SetActive(false);
+                    tinderPaperDirty[i].SetActive(false);
+                }
+                goodProfile[goodProfileNumber] = true;
+            }
+
+            public void ProfilSelectionHard()
+            {
+                goodProfileNumber = Random.Range(1, 16);
+                for (int i = 0; i < 8; i++)
                 {
                     goodProfile[i] = false;
                 }
@@ -264,6 +298,8 @@ namespace TrioTrapioWare
                 auraPersonnageDefaite.transform.Rotate(new Vector3(0, 0, 100f * Time.deltaTime));
                 auraVerteUI.transform.Rotate(new Vector3(0, 0, 100f * Time.deltaTime));
                 auraRougeUI.transform.Rotate(new Vector3(0, 0, 100f * Time.deltaTime));
+                AuraVertProfil.transform.Rotate(new Vector3(0, 0, 100f * Time.deltaTime));
+                AuraRougeProfil.transform.Rotate(new Vector3(0, 0, 100f * Time.deltaTime));
             }
 
             public void AuraFacile()
@@ -275,11 +311,15 @@ namespace TrioTrapioWare
                         {
                             auraRougeUI.SetActive(false);
                             auraVerteUI.SetActive(true);
+                            AuraRougeProfil.SetActive(false);
+                            AuraVertProfil.SetActive(true);
                         }
                         if (goodProfile[profilAnalizing] == false)
                         {
                             auraRougeUI.SetActive(true);
                             auraVerteUI.SetActive(false);
+                            AuraRougeProfil.SetActive(true);
+                            AuraVertProfil.SetActive(false);
                         }
                         break;
                 }
