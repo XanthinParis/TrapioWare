@@ -21,7 +21,7 @@ namespace TrapioWare
             [SerializeField] private int numberOfSpawner1 = 0;
             private int failed1 = 0;
             [SerializeField] private int numberOfSpawner2 = 0;
-            [SerializeField] private int numberOfSpawner3 = 0;
+    
 
 
             [Header("Difficulty")]
@@ -67,32 +67,11 @@ namespace TrapioWare
 
             }
 
-            void InitialisationGenerator3()
-            {
-                int random3 = Random.Range(0, OiseauGenerator3.Count);
-
-                OiseauStoredPoints3.Add(OiseauGenerator3[random3]);
-                OiseauGenerator3[random3].GetComponent<BirdSpawner>().selected = true;
-                OiseauGenerator3.Remove(OiseauGenerator3[random3]);
-                numberOfSpawner3++;
-                if (numberOfSpawner3 != numberOfMaxGenerator)
-                {
-                   
-                    InitialisationGenerator3();
-                }
-
-            }
-
             void SetDifficultyAlt()
             {
-                
                     numberOfMaxGenerator = Random.Range(2, 5);
                     InitialisationGenerator1();
                     InitialisationGenerator2();
-                    InitialisationGenerator3();
-                
-
-               
             }
 
 
@@ -106,21 +85,21 @@ namespace TrapioWare
                         Debug.Log(numberOfMaxGenerator);
                         InitialisationGenerator1();
                         InitialisationGenerator2();
-                        InitialisationGenerator3();
+                       
                         break;
                     case 1:
                         numberOfMaxGenerator = 2;
                         Debug.Log(numberOfMaxGenerator);
                         InitialisationGenerator1();
                         InitialisationGenerator2();
-                        InitialisationGenerator3();
+                       
                         break;
                     case 2:
                         numberOfMaxGenerator = 3;
                         Debug.Log(numberOfMaxGenerator);
                         InitialisationGenerator1();
                         InitialisationGenerator2();
-                        InitialisationGenerator3();
+                     
                         break;
                     default:
                         break;
