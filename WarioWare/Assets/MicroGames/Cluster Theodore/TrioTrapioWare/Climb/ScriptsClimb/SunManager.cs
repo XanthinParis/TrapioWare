@@ -62,6 +62,16 @@ namespace TrapioWare
             {
                 base.FixedUpdate(); //Do not erase this line!
 
+                if (ClimbGameManager.Instance.win)
+                {
+                    Manager.Instance.Result(true);
+                }
+
+                if (ClimbGameManager.Instance.lose && ClimbGameManager.Instance.win == false)
+                {
+                    Manager.Instance.Result(false);
+                }
+
             }
 
             //TimedUpdate is called once every tick.
@@ -74,7 +84,7 @@ namespace TrapioWare
                     gameObject.GetComponent<Animator>().SetTrigger("TickTrigger");
                 }
 
-                if(timerDead == 8 && ClimbGameManager.Instance.lose == false)
+                if(timerDead == 8 && ClimbGameManager.Instance.lose == false && ClimbGameManager.Instance.win == false)
                 {
                     //Manager.Instance.Result(false);
                     Debug.Log("You Lose");
