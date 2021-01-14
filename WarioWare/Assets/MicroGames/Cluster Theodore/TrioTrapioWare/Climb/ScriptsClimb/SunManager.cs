@@ -91,6 +91,7 @@ namespace TrapioWare
                     Debug.Log("You Lose");
                     TrapioWare.Climb.ClimbGameManager.Instance.lose = true;
                     TrapioWare.Climb.ClimbGameManager.Instance.needToStop = true;
+                    TrapioWare.Climb.ClimbGameManager.Instance.GetComponent<AudioSource>().Play();
                 }
 
             }

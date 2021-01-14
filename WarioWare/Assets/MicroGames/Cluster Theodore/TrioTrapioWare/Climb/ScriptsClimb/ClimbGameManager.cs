@@ -42,6 +42,7 @@ namespace TrapioWare
             [Header("Parrot")]
             [SerializeField] private GameObject parrot;
             public bool animationDone = false;
+            public bool loseDone = false;
 
             public bool setDifficulty = false;
             public int myDifficulty;
