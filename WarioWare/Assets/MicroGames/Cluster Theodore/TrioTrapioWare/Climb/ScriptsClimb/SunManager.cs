@@ -11,6 +11,7 @@ namespace TrapioWare
         public class SunManager : TimedBehaviour
         {
             [SerializeField] private int timerDead = 0;
+            
 
             public override void Start()
             {
@@ -62,7 +63,7 @@ namespace TrapioWare
             {
                 base.FixedUpdate(); //Do not erase this line!
 
-                if (ClimbGameManager.Instance.win)
+                if (ClimbGameManager.Instance.animationDone)
                 {
                     Manager.Instance.Result(true);
                 }
