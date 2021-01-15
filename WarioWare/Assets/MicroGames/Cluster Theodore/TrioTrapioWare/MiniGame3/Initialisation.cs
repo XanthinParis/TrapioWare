@@ -269,9 +269,9 @@ namespace TrioTrapioWare
                 }
                 greenCircle[goodProfileNumber].SetActive(true);
                 greenCircle[goodProfileNumber].transform.DOScale(1f, (0.2f * 60 / bpm));
-                personnageRondVert.transform.DOScale(0.2f, (0.2f * 60 / bpm));
-                auraMatch.transform.DOScale(0.3f, (0.2f * 60 / bpm));
-                auraPersonnage.transform.DOScale(0.3f, (0.2f * 60 / bpm));
+                personnageRondVert.transform.DOScale(0.8f, (0.2f * 60 / bpm));
+                auraMatch.transform.DOScale(1.2f, (0.2f * 60 / bpm));
+                auraPersonnage.transform.DOScale(1.2f, (0.2f * 60 / bpm));
                 match.transform.DOScale(0.23f, (0.2f * 60 / bpm));
                 epeeDroit.transform.DOMoveX(0.2f, (0.4f * 60 / bpm));
                 epeeDroit.transform.DORotate(RotationEpees, (0.4f * 60 / bpm));
@@ -285,8 +285,8 @@ namespace TrioTrapioWare
                 canPlay = false;
                 defeat = true;
                 ecranDefaite.SetActive(true);
-                personnageRondRouge.transform.DOScale(0.2f, (0.2f * 60 / bpm));
-                auraPersonnageDefaite.transform.DOScale(0.3f, (0.2f * 60 / bpm));
+                personnageRondRouge.transform.DOScale(0.8f, (0.2f * 60 / bpm));
+                auraPersonnageDefaite.transform.DOScale(1.2f, (0.2f * 60 / bpm));
                 rate.transform.DOScale(0.23f, (0.2f * 60 / bpm));
             }
 
