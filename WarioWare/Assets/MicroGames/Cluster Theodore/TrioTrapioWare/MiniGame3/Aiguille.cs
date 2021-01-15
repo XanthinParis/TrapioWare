@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TrioName
+namespace TrioTrapioWare
 {
-    namespace MiniGameName
+    namespace Swipe
     {
         public class Aiguille : TimedBehaviour
         {
             float rotationAiguille = 45f + 15.07f;
 
-            public AudioSource clock;
-            public AudioSource clockFast;
+            public GameObject managerSwipe;
+            private Initialisation initialisation;
 
             public override void Start()
             {
                 base.Start(); //Do not erase this line!
-
+                initialisation = managerSwipe.GetComponent<Initialisation>();
             }
 
             //FixedUpdate is called on a fixed time.
@@ -44,15 +44,15 @@ namespace TrioName
             {
                 if (Tick < 5)
                 {
-                    clock.Play();
+                    initialisation.source.PlayOneShot(initialisation.clock);
                 }
                 if (Tick >= 5 && Tick < 8)
                 {
-                    clock.Play();
+                    initialisation.source.PlayOneShot(initialisation.clock);
                     for (int i = 0; i < 3; i++)
                     {
                         yield return new WaitForSeconds((0.25f * 60) / bpm);
-                        clockFast.Play();
+                        initialisation.source.PlayOneShot(initialisation.clockFast);
                     }
                 }
             }

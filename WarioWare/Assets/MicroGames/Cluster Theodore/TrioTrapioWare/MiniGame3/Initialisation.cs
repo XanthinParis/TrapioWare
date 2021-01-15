@@ -47,12 +47,15 @@ namespace TrioTrapioWare
             public GameObject AuraVertProfil;
             public GameObject AuraRougeProfil;
 
-            //Sons
-            public AudioSource ambianceNavire;
-            public AudioSource swipeSound;
-            public AudioSource winSound;
-            public AudioSource defeatSound;
-            public AudioSource paperSound;
+            public AudioSource source;
+
+            public AudioClip swipeSound;
+            public AudioClip winSound;
+            public AudioClip defeatSound;
+            public AudioClip paperSound;
+            public AudioClip angelSound;
+            public AudioClip clock;
+            public AudioClip clockFast;
 
             public bool[] goodProfile;
             public bool canPlay;
@@ -60,6 +63,8 @@ namespace TrioTrapioWare
 
             public bool win;
             public bool defeat;
+
+            public bool angelFlag;
 
             public int goodProfileNumber;
             public int profilAnalizing = 0;
@@ -72,7 +77,9 @@ namespace TrioTrapioWare
             {
                 base.Start(); //Do not erase this line!
 
-                paperSound.Play();
+                source = GetComponent<AudioSource>();
+                source.volume = 0.5f;
+                source.PlayOneShot(paperSound);
                 RandomSorting();
                 ecranNoir.SetActive(false);
 
@@ -192,8 +199,8 @@ namespace TrioTrapioWare
 
             public void ProfilSelectionEasy()
             {
-                goodProfileNumber = Random.Range(1, 16);
-                for (int i = 0; i < 12; i++)
+                goodProfileNumber = Random.Range(1, 12);
+                for (int i = 0; i < 16; i++)
                 {
                     goodProfile[i] = false;
                 }
@@ -207,8 +214,8 @@ namespace TrioTrapioWare
 
             public void ProfilSelectionMedium()
             {
-                goodProfileNumber = Random.Range(1, 16);
-                for (int i = 0; i < 10; i++)
+                goodProfileNumber = Random.Range(1, 10);
+                for (int i = 0; i < 16; i++)
                 {
                     goodProfile[i] = false;
                 }
@@ -222,8 +229,8 @@ namespace TrioTrapioWare
 
             public void ProfilSelectionHard()
             {
-                goodProfileNumber = Random.Range(1, 16);
-                for (int i = 0; i < 8; i++)
+                goodProfileNumber = Random.Range(1, 8);
+                for (int i = 0; i < 16; i++)
                 {
                     goodProfile[i] = false;
                 }
@@ -237,14 +244,14 @@ namespace TrioTrapioWare
 
             public void SwipeGauche()
             {
-                swipeSound.Play();
+                source.PlayOneShot(swipeSound);
                 tinderProfile[profilAnalizing].transform.DOMoveX(1f, 0.2f);
                 tinderProfile[profilAnalizing].transform.DOMoveY(-3f, 0.2f);
                 tinderProfile[profilAnalizing].transform.DORotate(RotationSwipe, 0.2f);
             }
             public void SwipeDroite()
             {
-                swipeSound.Play();
+                source.PlayOneShot(swipeSound);
                 tinderProfile[profilAnalizing].transform.DOMoveX(7f, 0.2f);
                 tinderProfile[profilAnalizing].transform.DOMoveY(-3f, 0.2f);
                 tinderProfile[profilAnalizing].transform.DORotate(-RotationSwipe, 0.2f);
@@ -252,7 +259,7 @@ namespace TrioTrapioWare
 
             public void AnimVictoire()
             {
-                winSound.Play();
+                source.PlayOneShot(winSound);
                 canPlay = false;
                 win = true;
                 ecranNoir.SetActive(true);
@@ -274,7 +281,7 @@ namespace TrioTrapioWare
 
             public void AnimDefaite()
             {
-                defeatSound.Play();
+                source.PlayOneShot(defeatSound);
                 canPlay = false;
                 defeat = true;
                 ecranDefaite.SetActive(true);
@@ -313,6 +320,11 @@ namespace TrioTrapioWare
                             auraVerteUI.SetActive(true);
                             AuraRougeProfil.SetActive(false);
                             AuraVertProfil.SetActive(true);
+                            if (angelFlag)
+                            {
+                                source.PlayOneShot(angelSound);
+                                angelFlag = false;
+                            }
                         }
                         if (goodProfile[profilAnalizing] == false)
                         {
