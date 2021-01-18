@@ -26,6 +26,7 @@ namespace TrapioWare
             public AudioClip whooshLaunchClip;
             public GameObject joystickGizmo;
             public GameObject bumperGizmo;
+            public GameObject takeBackHammer;
 
             [Header("Difficulty Settings")]
             public SpinManager spinManager;
@@ -193,8 +194,8 @@ namespace TrapioWare
                     showJoystick = true;
                 }
 
-                joystickGizmo.SetActive(showJoystick);
-                bumperGizmo.SetActive(!showJoystick && !hammerReleased);
+                joystickGizmo.SetActive(showJoystick && !spinManager.gameFinished);
+                bumperGizmo.SetActive(!showJoystick && !hammerReleased && !spinManager.gameFinished);
 
                 if(spinManager.hasWon && hammerReleased)
                 {
