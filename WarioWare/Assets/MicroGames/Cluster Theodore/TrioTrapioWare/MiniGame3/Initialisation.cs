@@ -48,6 +48,7 @@ namespace TrioTrapioWare
             public GameObject AuraRougeProfil;
 
             public AudioSource source;
+            public AudioSource musique;
 
             public AudioClip swipeSound;
             public AudioClip winSound;
@@ -56,6 +57,13 @@ namespace TrioTrapioWare
             public AudioClip angelSound;
             public AudioClip clock;
             public AudioClip clockFast;
+
+            public AudioClip musique60;
+            public AudioClip musique80;
+            public AudioClip musique90;
+            public AudioClip musique100;
+            public AudioClip musique120;
+            public AudioClip musique140;
 
             public bool[] goodProfile;
             public bool canPlay;
@@ -78,10 +86,13 @@ namespace TrioTrapioWare
                 base.Start(); //Do not erase this line!
 
                 source = GetComponent<AudioSource>();
-                source.volume = 0.5f;
+                musique = GetComponent<AudioSource>();
+                source.volume = 1f;
+                musique.volume = 0.1f;
                 source.PlayOneShot(paperSound);
                 RandomSorting();
                 ecranNoir.SetActive(false);
+                MusiqueBPM();
 
                 switch (currentDifficulty)
                 {
@@ -170,10 +181,7 @@ namespace TrioTrapioWare
             }
             public void RandomSorting()
             {
-                tinderProfile = GameObject.FindGameObjectsWithTag("Button1");
-                tinderPaper = GameObject.FindGameObjectsWithTag("Button2");
-                tinderPaperDirty = GameObject.FindGameObjectsWithTag("Wall");
-                greenCircle = GameObject.FindGameObjectsWithTag("Finish");
+               
                 for (int positionOfArray = 0; positionOfArray < tinderProfile.Length; positionOfArray++)
                 {
                     GameObject obj = tinderProfile[positionOfArray];
@@ -356,6 +364,34 @@ namespace TrioTrapioWare
             {
                 rondXAppuye.SetActive(false);
                 rondX.SetActive(true);
+            }
+
+            public void MusiqueBPM()
+            {
+                if (bpm == 60)
+                {
+                    musique.PlayOneShot(musique60);
+                }
+                else if (bpm == 80)
+                {
+                    musique.PlayOneShot(musique80);
+                }
+                else if (bpm == 90)
+                {
+                    musique.PlayOneShot(musique90);
+                }
+                else if (bpm == 100)
+                {
+                    musique.PlayOneShot(musique100);
+                }
+                else if (bpm == 120)
+                {
+                    musique.PlayOneShot(musique120);
+                }
+                else if (bpm == 140)
+                {
+                    musique.PlayOneShot(musique140);
+                }
             }
         }
     }
