@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace TrapioWare
 {
@@ -36,9 +34,11 @@ namespace TrapioWare
             {
                 if (collision.gameObject.CompareTag("Player"))
                 {
+                    ClimbGameManager.Instance.deadSound.Play();
                     Debug.Log("You lose");
                     ClimbGameManager.Instance.lose = true;
                     ClimbGameManager.Instance.needToStop = true;
+                    
                 }
             }
         }
